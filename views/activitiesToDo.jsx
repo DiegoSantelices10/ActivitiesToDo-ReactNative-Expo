@@ -14,7 +14,6 @@ export default function ActivitiesToDo({ route, navigation }) {
       const jsonValue = await AsyncStorage.getItem(`${userEmail}`);
       const res = JSON.parse(jsonValue);
       setActivities(res.activities ? res.activities : "")
-      console.log(res);
       setUserData(res);
     } catch (e) {
       console.log(e);

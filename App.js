@@ -20,8 +20,7 @@ export default function App() {
           <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
           <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ActivitiesToDo" component={ActivitiesToDo} />
-
+          <Stack.Screen name="ActivitiesToDo" component={ActivitiesToDo} options={{ headerShown: false }}/>
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
