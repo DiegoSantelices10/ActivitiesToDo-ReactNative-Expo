@@ -8,22 +8,23 @@ import Login from "./views/login"
 import SignUp from "./views/signUp"
 import Home from "./views/home"
 import ActivitiesToDo from "./views/activitiesToDo"
-import { userData } from './utils/index'
-
+import { UserProvider } from './context/userContext'
 const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <NavigationContainer ref={navigationRef}>
-        <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-          <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-          <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ActivitiesToDo" component={ActivitiesToDo} options={{ headerShown: false }}/>
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <UserProvider>
+      <NativeBaseProvider>
+        <NavigationContainer ref={navigationRef}>
+          <Stack.Navigator initialRouteName="Login">
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="ActivitiesToDo" component={ActivitiesToDo} options={{ headerShown: false }} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </UserProvider>
   );
 }
 

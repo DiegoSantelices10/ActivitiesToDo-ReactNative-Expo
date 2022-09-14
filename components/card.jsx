@@ -3,7 +3,7 @@ import { Box, HStack, Text, VStack } from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { iconType } from '../utils/index'
 
-export default function Card({activityDelete, data: { key, activity, type, participants }}) {
+export default function Card({deleteActivity, data: { key, activity, type, participants }}) {
   return (
         <Box p="4" bg="white" borderRadius="md" key={key} h={180}>
             <Box flex={1} justifyContent="space-between" >
@@ -16,7 +16,7 @@ export default function Card({activityDelete, data: { key, activity, type, parti
                     <Text fontSize="18" fontWeight={600}>{type}</Text>
                     <Text fontSize="18" fontWeight={400}>{participants} Participants</Text>
                 </HStack>
-                <MaterialIcons name="delete-forever" size={30} color="red" onPress={() => activityDelete(key)} />
+                <MaterialIcons name="delete-forever" size={30} color="red" onPress={() => deleteActivity(key)} />
               </HStack>
             </Box>
         </Box>

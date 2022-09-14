@@ -15,10 +15,13 @@ import { useFormik } from "formik";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { validateUser } from '../utils/index'
- 
+import { useUser } from "../context/userContext"
+
 
 export default function Login({ navigation }) {
+  const { setUsers } = useUser()
 
+  
   const { handleSubmit, handleChange, values, handleBlur } = useFormik({
     initialValues: {
       email: "",
@@ -26,7 +29,7 @@ export default function Login({ navigation }) {
     },
     onSubmit: async (values) => {
         await AsyncStorage.setItem("email", JSON.stringify(values.email))
-        await validateUser(values, navigation)
+        await validateUser(values, navigation, setUsers)
     }
   })
 

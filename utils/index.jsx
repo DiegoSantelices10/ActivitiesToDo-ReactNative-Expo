@@ -1,12 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export async function validateUser(values, navigation )  {
+export async function validateUser(values, navigation, setUsers)  {
     try {
       const jsonValue = await AsyncStorage.getItem(`${values.email}`)
        const res = JSON.parse(jsonValue)
-
        res != null && values.email == res.email && values.password == res.password ?
-       navigation.navigate("Home", { name: values.email } ) : alert("no son iguales")
+       (setUsers(res), navigation.navigate("Home")) : alert("no son iguales")
     } catch(e) {
       console.log(e)
     }
@@ -20,18 +19,22 @@ export async function storeData(values) {
     }
   }
 
+export const getEmail = async () => {
+  await AsyncStorage.getItem("email")
+}
 
-export async function userData(){
+
+ export const getData = async () => {
     try {
-      const jsonValue = await AsyncStorage.getItem("email");
+      const userEmail = await AsyncStorage.getItem("email")
+      const email = JSON.parse(userEmail)
+      const jsonValue = await AsyncStorage.getItem(email)
       const res = JSON.parse(jsonValue)
-       return res 
-      console.log("hola mundo")
-        console.log(res)
+      return res
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
 export function iconType(type) {
     if(type === "education")

@@ -12,7 +12,6 @@ export default function SignUp ({ navigation }) {
       age: "",
       email: "",
       password: "",
-      activities: [],
     },
     onSubmit: async (values) => {
         await storeData(values)
