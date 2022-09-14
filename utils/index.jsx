@@ -5,30 +5,37 @@ export async function validateUser(values, navigation, setUsers)  {
       const jsonValue = await AsyncStorage.getItem(`${values.email}`)
        const res = JSON.parse(jsonValue)
        res != null && values.email == res.email && values.password == res.password ?
-       (setUsers(res), navigation.navigate("Home")) : alert("no son iguales")
+       (setUsers({user: res}), navigation.navigate("Home")) : alert("no son iguales")
     } catch(e) {
       console.log(e)
     }
   }
 
-export async function storeData(values) {
+export async function storeUser(values) {
     try {
+
       await AsyncStorage.setItem(`${values.email}`, JSON.stringify(values))
     } catch (e) {
      console.log(e)
     }
   }
 
-export const getEmail = async () => {
-  await AsyncStorage.getItem("email")
+  
+export async function storeData(values, id) {
+  try {
+    await AsyncStorage.setItem(id, JSON.stringify(values))
+    const jsonValue = await AsyncStorage.getItem(id)
+    const res = JSON.parse(jsonValue)
+      console.log("store update:", res)
+  } catch (e) {
+   console.log(e)
+  }
 }
 
 
- export const getData = async () => {
+ export const getData = async (id) => {
     try {
-      const userEmail = await AsyncStorage.getItem("email")
-      const email = JSON.parse(userEmail)
-      const jsonValue = await AsyncStorage.getItem(email)
+      const jsonValue = await AsyncStorage.getItem(id)
       const res = JSON.parse(jsonValue)
       return res
     } catch (e) {

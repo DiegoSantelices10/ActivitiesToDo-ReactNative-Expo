@@ -1,12 +1,15 @@
 import React from 'react'
 import { Center, Box, Heading, VStack, FormControl, Input, Button, Alert } from 'native-base'
 import { useFormik } from "formik";
-import { storeData } from "../utils/index"
-
+import { storeUser } from "../utils/index"
+import { v4 as uuid } from 'uuid'
+import 'react-native-get-random-values';
 export default function SignUp ({ navigation }) {
+  const id = uuid()
 
   const { handleSubmit, handleChange, values, handleBlur } = useFormik({
     initialValues: {
+      id: id,
       name: "",
       lastName: "",
       age: "",
@@ -14,7 +17,7 @@ export default function SignUp ({ navigation }) {
       password: "",
     },
     onSubmit: async (values) => {
-        await storeData(values)
+      await storeUser(values)
         navigation.navigate("Login")
     }
   });

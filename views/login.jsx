@@ -21,7 +21,6 @@ import { useUser } from "../context/userContext"
 export default function Login({ navigation }) {
   const { setUsers } = useUser()
 
-  
   const { handleSubmit, handleChange, values, handleBlur } = useFormik({
     initialValues: {
       email: "",

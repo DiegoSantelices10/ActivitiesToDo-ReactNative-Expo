@@ -5,22 +5,23 @@ import { iconType } from '../utils/index'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useUser } from "../context/userContext"
 
+
+
 export default function Home({ navigation }) {
   const [data, setData] = useState("")
   const [types, setTypes] = useState("")
-  const [activity, setActivity] = useState([])
-  const { users, addActivity } = useUser()
+  const { users, activities, addActivity, getActivity} = useUser()
 
-
- useEffect(() => {
-    fetchData()
+  useEffect( () => {
+  getActivity()
+  fetchData()
   }, []);
-
+  
   const sumActivity = () => {
-    addActivity(data)
+    const id = users.user.id
+    addActivity(data, id)
     alert("La actividad se creo correctamente!")
     fetchData() 
-   // users.activities.key != data.key ? addActivity(data) : alert("la actividad ya existe")
   }
 
 
@@ -40,8 +41,8 @@ export default function Home({ navigation }) {
       <VStack space="4" p="4">
         <Box py="2">
           <HStack space={10} justifyContent="space-between">
-            <Text fontSize="18" fontWeight={600}> </Text>
-            <Text fontSize="18" fontWeight={600}> Años </Text>
+            <Text fontSize="18" fontWeight={600}>{users.user.name} </Text>
+            <Text fontSize="18" fontWeight={600}>{users.user.age} Años </Text>
           </HStack>
         </Box>
         <Box p="4" bg="white" borderRadius="md" h={180}>

@@ -5,16 +5,20 @@ import { useUser } from '../context/userContext'
 
 
 export default function ActivitiesToDo() {
-  const { users, deleteActivity } = useUser()
-  
-  console.log("activitiesToDo")
-  console.log(users)
-
+  const { activities, deleteActivity, getActivity } = useUser()
 
   return (
     <ScrollView>
-      <Box safeArea>
-     <Text>Hola</Text>
+      <Box border="1" borderRadius="md">
+        <VStack space="4" p="4">
+          {activities && Object.values(activities)?.map((data) => (
+                <Card
+                  key={data.key}
+                  data={data}
+                  activityDelete={deleteActivity}
+                />
+              ))}
+        </VStack>   
       </Box>
     </ScrollView>
   );
