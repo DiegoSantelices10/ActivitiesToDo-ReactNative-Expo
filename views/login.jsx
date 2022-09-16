@@ -32,7 +32,7 @@ export default function Login({ navigation }) {
 
   return (
     <Center my="auto">
-      <Box safeArea p="2" w="90%" maxW="290" py="8">
+      <Box safeArea  w="100%" maxW="350">
         <Heading
           size="lg"
           color="coolGray.800"

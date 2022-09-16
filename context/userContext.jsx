@@ -14,7 +14,6 @@ const getActivities = async (id) => {
     try {
         const jsonValue = await AsyncStorage.getItem(`${id}`)
         const res = JSON.parse(jsonValue)
-        console.log("datos despues del login: ",res)
         setActivities(res)
       } catch (e) {
        console.log(e)

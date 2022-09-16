@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Button, VStack, Box, Text, HStack, Select } from "native-base"
+import { Button, VStack, Box, Text, HStack, Select, Center } from "native-base"
 import axios from "axios";
 import { iconType, fetchData, setStorageData } from '../utils/index'
-import { MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { useUser } from "../context/userContext"
-import { AntDesign } from '@expo/vector-icons'
 
 
 export default function Home({ navigation }) {
   const [data, setData] = useState({})
   const [types, setTypes] = useState("")
-  const { users, activities, addActivity} = useUser()
+  const { users, activities, addActivity } = useUser()
 
   useEffect( () => {
    fetchData(setData, types)
@@ -45,7 +44,7 @@ export default function Home({ navigation }) {
             <Text fontSize="18" fontWeight={600}>{users.age} Años </Text>
           </HStack>
         </Box>
-        <Box p="4" bg="white" borderRadius="md" h={180}>
+        <Center mt="20" p="4" bg="white" borderRadius="md" h={180}>
             <Box flex={1} justifyContent="space-between" >
             <VStack justifyContent="center" alignItems="center">
                 <Text textAlign="center" fontSize="18" fontWeight="600">{data.activity}</Text>
@@ -56,7 +55,7 @@ export default function Home({ navigation }) {
                 <Text fontSize="16" fontWeight={500}>{data.participants} Participants</Text>
               </HStack>
             </Box>
-        </Box>
+        </Center>
           <Box w="100%">
             <Select
               selectedValue={types}
