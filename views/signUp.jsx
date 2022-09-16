@@ -1,5 +1,5 @@
 import React from 'react'
-import { Center, Box, Heading, VStack, FormControl, Input, Button, Alert } from 'native-base'
+import { Center, Box, Heading, VStack, FormControl, Input, Button} from 'native-base'
 import { useFormik } from "formik";
 import { storeUser } from "../utils/index"
 import { v4 as uuid } from 'uuid'
@@ -45,6 +45,7 @@ export default function SignUp ({ navigation }) {
           <FormControl.Label>Password</FormControl.Label>
           <Input id="password"
                        name="password"
+                       type="password"
                        p={2}
                        onBlur={handleBlur("password")}
                        onChangeText={handleChange("password")}

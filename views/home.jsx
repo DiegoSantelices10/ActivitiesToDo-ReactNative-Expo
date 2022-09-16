@@ -1,48 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Button, VStack, Box, Text, HStack, Select } from "native-base"
 import axios from "axios";
-import { iconType } from '../utils/index'
+import { iconType, fetchData, setStorageData } from '../utils/index'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useUser } from "../context/userContext"
-
+import { AntDesign } from '@expo/vector-icons'
 
 
 export default function Home({ navigation }) {
-  const [data, setData] = useState("")
+  const [data, setData] = useState({})
   const [types, setTypes] = useState("")
-  const { users, activities, addActivity, getActivity} = useUser()
+  const { users, activities, addActivity} = useUser()
 
   useEffect( () => {
-  getActivity()
-  fetchData()
-  }, []);
+   fetchData(setData, types)
+   setStorageData(activities, users.id)  
+  }, [activities]);
   
-  const sumActivity = () => {
-    const id = users.user.id
-    addActivity(data, id)
-    alert("La actividad se creo correctamente!")
-    fetchData() 
+
+  const logOut = () => {
+    navigation.navigate("Login")
   }
 
-
-  const fetchData = () => {
-      types == "all" ?
-      (  axios.get("http://www.boredapi.com/api/activity")
-              .then((response) => setData(response.data))
-              .catch((error) => console.log(error))) : 
-      (  axios.get(`http://www.boredapi.com/api/activity?type=${types}`)
-              .then((response) => setData(response.data))
-              .catch((error) => console.log(error)))
+  const activitiesRamdon = () => {
+    types == "all" ?
+    (  axios.get("http://www.boredapi.com/api/activity")
+            .then((response) => setData(response.data))
+            .catch((error) => console.log(error))) : 
+    (  axios.get(`http://www.boredapi.com/api/activity?type=${types}`)
+            .then((response) => setData(response.data))
+            .catch((error) => console.log(error)))
   }
 
   
   return (
-    <Box border="1" borderRadius="md">
+    <Box border="1" borderRadius="md" safeArea>
+          <VStack alignItems="flex-end" p={4} bg="white">
+            <AntDesign name="logout" size={24} color="black" onPress={() => logOut()} />
+        </VStack>     
       <VStack space="4" p="4">
         <Box py="2">
           <HStack space={10} justifyContent="space-between">
-            <Text fontSize="18" fontWeight={600}>{users.user.name} </Text>
-            <Text fontSize="18" fontWeight={600}>{users.user.age} Años </Text>
+            <Text fontSize="18" fontWeight={600}>{users.name} </Text>
+            <Text fontSize="18" fontWeight={600}>{users.age} Años </Text>
           </HStack>
         </Box>
         <Box p="4" bg="white" borderRadius="md" h={180}>
@@ -84,13 +84,15 @@ export default function Home({ navigation }) {
         </Box>
         <Box>
           <HStack gap={2} justifyContent="space-between">
-            <Button w="45%" onPress={fetchData}>Actitivies Ramdon</Button>
-            <Button w="45%" bg="tertiary.400"  onPress={sumActivity}>Add Actitivies</Button>
+            <Button w="45%" onPress={activitiesRamdon}>Actitivies Ramdon</Button>
+            <Button w="45%" bg="tertiary.400"  onPress={()=> addActivity(data)}>Add Activity</Button>
+           
           </HStack>
       
           <Button mt="5" onPress={() => navigation.navigate("ActivitiesToDo", { params: "santelices.diego@hotmail.com"  })} >
             Actitivies To Do
           </Button>
+          
         </Box>
       </VStack>
     </Box>

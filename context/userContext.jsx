@@ -1,5 +1,5 @@
 import { createContext, useContext, useState } from 'react'
-import { storeData, getData } from '../utils/index'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const UserContext = createContext()
@@ -10,24 +10,30 @@ const [users, setUsers] = useState({})
 const [activities, setActivities] = useState([])
 
 
-const getActivity = async () => {
-    const data = await getData(users.user.id)   
-    setActivities(data)
+const getActivities = async (id) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem(`${id}`)
+        const res = JSON.parse(jsonValue)
+        console.log("datos despues del login: ",res)
+        setActivities(res)
+      } catch (e) {
+       console.log(e)
+      }
 }
 
-const addActivity = (data, id) => {
-    setActivities([...activities, data]) 
-    storeData(activities, id)    
+const addActivity = (data) => {
+activities == null ? setActivities([data]) : setActivities([...activities, data])
+alert("Se ha creado con exito!")
 }
 
 const deleteActivity = (key) => {
-    setActivities([...activities.filter((activity) => activity.key !== key)])
-    storeData(activities, users.user.id)
-        alert("La actividad se eliminó correctamente!")
+    const updateActivities = activities.filter((activity) => activity.key !== key) 
+    setActivities([...updateActivities]) 
+    alert("La actividad se elimino correctamente!")
 }
     
     return (
-        <UserContext.Provider value={{ users, activities, addActivity, deleteActivity, setActivities, setUsers, getActivity }}>
+        <UserContext.Provider value={{ users, activities, addActivity, deleteActivity, setActivities, setUsers, getActivities}}>
             {children}
         </UserContext.Provider>
     )

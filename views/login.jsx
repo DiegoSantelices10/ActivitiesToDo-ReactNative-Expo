@@ -12,14 +12,12 @@ import {
 } from "native-base";
 import { Text } from "react-native";
 import { useFormik } from "formik";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import { validateUser } from '../utils/index'
 import { useUser } from "../context/userContext"
 
 
 export default function Login({ navigation }) {
-  const { setUsers } = useUser()
+  const { setUsers, getActivities } = useUser()
 
   const { handleSubmit, handleChange, values, handleBlur } = useFormik({
     initialValues: {
@@ -27,8 +25,7 @@ export default function Login({ navigation }) {
       password: "",
     },
     onSubmit: async (values) => {
-        await AsyncStorage.setItem("email", JSON.stringify(values.email))
-        await validateUser(values, navigation, setUsers)
+        await validateUser(values, navigation, setUsers, getActivities)
     }
   })
 
@@ -76,6 +73,7 @@ export default function Login({ navigation }) {
                 <FormControl.Label>Password</FormControl.Label>
                 <Input id="password"
                        name="password"
+                       type="password"
                        p={2}
                        onBlur={handleBlur("password")}
                        onChangeText={handleChange("password")}
