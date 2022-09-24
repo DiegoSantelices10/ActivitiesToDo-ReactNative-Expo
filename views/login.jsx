@@ -7,27 +7,42 @@ import {
   Heading,
   HStack,
   Input,
+  Text,
   VStack,
   Stack,
 } from "native-base";
-import { Text } from "react-native";
-import { useFormik } from "formik";
 import { validateUser } from '../utils/index'
 import { useUser } from "../context/userContext"
-
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useForm, Controller } from "react-hook-form";
+import * as yup from "yup";
 
 export default function Login({ navigation }) {
   const { setUsers, getActivities } = useUser()
 
-  const { handleSubmit, handleChange, values, handleBlur } = useFormik({
-    initialValues: {
+  const message = "*El campo es requerido";
+  let schema = yup.object().shape({
+    email: yup.string().email("Correo electronico invalido").required(message),
+    password: yup.string().required(message),
+  }).required()
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
       email: "",
       password: "",
     },
-    onSubmit: async (values) => {
-        await validateUser(values, navigation, setUsers, getActivities)
+    resolver: yupResolver(schema),
+  });
+
+
+    const onSubmit = async (data) => {
+        await validateUser(data, navigation, setUsers, getActivities)
     }
-  })
+
 
 
   return (
@@ -57,31 +72,49 @@ export default function Login({ navigation }) {
         <VStack space={3} mt="5">
           <FormControl >
             <Stack space={5}>
-              <Stack>
-                <FormControl>
-                <FormControl.Label>Email</FormControl.Label>
-                <Input id="email"
-                       name="email"
-                       p={2}
-                       onBlur={handleBlur("email")}
-                       onChangeText={handleChange("email")}
-                       value={values.email} />
-                </FormControl>
-              </Stack>
-              <Stack>
-              <FormControl>
-                <FormControl.Label>Password</FormControl.Label>
-                <Input id="password"
-                       name="password"
-                       type="password"
-                       p={2}
-                       onBlur={handleBlur("password")}
-                       onChangeText={handleChange("password")}
-                       value={values.password} />
-              </FormControl>
-              </Stack>
+            <FormControl>
+              <FormControl.Label>Email</FormControl.Label>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="email"
+              />
+              {errors.email && <Text>{errors.email.message}</Text>}
+            </FormControl>
+
+
+            <FormControl>
+              <FormControl.Label>Password</FormControl.Label>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    type="password"  
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="password"
+                
+              />
+              {errors.password && <Text>This is required.</Text>}
+            </FormControl>
+                
             </Stack>
-            <Button mt="5" colorScheme="indigo" onPress={handleSubmit} >
+            <Button mt="5" colorScheme="indigo"  onPress={handleSubmit(onSubmit)} >
               Sign in
             </Button>
           </FormControl>

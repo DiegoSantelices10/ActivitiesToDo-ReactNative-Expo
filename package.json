@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
+    "@hookform/resolvers": "^2.9.8",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-navigation/drawer": "^6.4.4",
     "@react-navigation/native": "^6.0.12",
@@ -21,6 +22,7 @@
     "native-base": "^3.4.15",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "react-hook-form": "^7.36.1",
     "react-native": "0.69.5",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-get-random-values": "^1.8.0",
@@ -30,7 +32,8 @@
     "react-native-svg": "12.3.0",
     "react-native-web": "~0.18.7",
     "standard": "^17.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"

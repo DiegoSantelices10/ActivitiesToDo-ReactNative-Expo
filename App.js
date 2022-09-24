@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NativeBaseProvider } from 'native-base'
 import 'react-native-gesture-handler';
 
+
 import { navigationRef } from './views/RootNavigation';
 import Login from "./views/login"
 import SignUp from "./views/signUp"
