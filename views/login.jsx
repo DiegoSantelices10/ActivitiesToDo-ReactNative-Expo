@@ -1,30 +1,24 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Center,
-  FormControl,
-  Heading,
-  HStack,
-  Input,
-  Text,
-  VStack,
-  Stack,
-} from "native-base";
-import { validateUser } from '../utils/index'
-import { useUser } from "../context/userContext"
+import { Box, Button, Center, FormControl, Heading, HStack, Input, Text, VStack, Stack } from "native-base";
+import { validateUser } from "../utils/index";
+import { useUser } from "../context/userContext";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm, Controller } from "react-hook-form";
 import * as yup from "yup";
 
 export default function Login({ navigation }) {
-  const { setUsers, getActivities } = useUser()
-
+  const { setUsers, getActivities } = useUser();
   const message = "*El campo es requerido";
-  let schema = yup.object().shape({
-    email: yup.string().email("Correo electronico invalido").required(message),
-    password: yup.string().required(message),
-  }).required()
+  let schema = yup
+    .object()
+    .shape({
+      email: yup
+        .string()
+        .email("Correo electronico invalido")
+        .required(message),
+      password: yup.string().required(message),
+    })
+    .required();
 
   const {
     control,
@@ -38,16 +32,13 @@ export default function Login({ navigation }) {
     resolver: yupResolver(schema),
   });
 
-
-    const onSubmit = async (data) => {
-        await validateUser(data, navigation, setUsers, getActivities)
-    }
-
-
+  const onSubmit = async (data) => {
+    await validateUser(data, navigation, setUsers, getActivities);
+  };
 
   return (
     <Center my="auto">
-      <Box safeArea  w="100%" maxW="350">
+      <Box safeArea w="100%" maxW="350">
         <Heading
           size="lg"
           color="coolGray.800"
@@ -70,51 +61,52 @@ export default function Login({ navigation }) {
           Sign in to continue!
         </Heading>
         <VStack space={3} mt="5">
-          <FormControl >
+          <FormControl>
             <Stack space={5}>
-            <FormControl>
-              <FormControl.Label>Email</FormControl.Label>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="email"
-              />
-              {errors.email && <Text>{errors.email.message}</Text>}
-            </FormControl>
+              <FormControl>
+                <FormControl.Label>Email</FormControl.Label>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="email"
+                />
+                {errors.email && <Text>{errors.email.message}</Text>}
+              </FormControl>
 
-
-            <FormControl>
-              <FormControl.Label>Password</FormControl.Label>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    type="password"  
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="password"
-                
-              />
-              {errors.password && <Text>This is required.</Text>}
-            </FormControl>
-                
+              <FormControl>
+                <FormControl.Label>Password</FormControl.Label>
+                <Controller
+                  control={control}
+                  rules={{
+                    required: true,
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <Input
+                      type="password"
+                      onBlur={onBlur}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="password"
+                />
+                {errors.password && <Text>This is required.</Text>}
+              </FormControl>
             </Stack>
-            <Button mt="5" colorScheme="indigo"  onPress={handleSubmit(onSubmit)} >
+            <Button
+              mt="5"
+              colorScheme="indigo"
+              onPress={handleSubmit(onSubmit)}
+            >
               Sign in
             </Button>
           </FormControl>
